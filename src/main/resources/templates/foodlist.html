@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Herkku-Herkko</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+	<div class="menu">
+		<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Kirjaudu ulos"/>
+			</form>
+			<p>Asetukset (TULOSSA PIAN!)</p>
+		</div>
+		<div sec:authorize="!hasAuthority('USER') and !hasAuthority('ADMIN')">
+			<a href="/login" class="btn btn-primary">Kirjaudu sisään</a>
+		</div>
+	</div>
+	
+	<h1>Herkku-Herkko</h1>
+	<h2 th:inline="text">Tervetuloa, [[${#httpServletRequest.remoteUser}]]!</h2>
+	<p>Tällä sivulla näet listan elintarviketuotteistamme.</p>
+	
+    <table class="table table-striped">
+		<tr>
+			<th>Nimi</th>
+			<th>Tuoteryhmä</th>
+			<th>Merkki</th>
+			<th>Alkuperämaa</th>
+			<th>Paino (g)</th>
+			<th>Kaloreita (kcal)</th>
+		</tr>
+			<tr th:each = "food : ${foods}">
+			<td th:text="${food.name}"></td>
+			<td th:text="${food.category.name}"></td>
+			<td th:text="${food.brand}"></td>
+			<td th:text="${food.country}"></td>
+			<td th:text="${food.weight}"></td>
+			<td th:text="${food.kcal}"></td>
+			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${food.Id})}">Muokkaa</a></td>
+			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/delete/{id}(id=${food.Id})}" class="confirmation">Poista</a></td>
+		</tr>
+	</table>
+	
+	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
+		<a href="/add" class="btn btn-primary">Lisää uusi tuote</a>
+	</div>
+	<div sec:authorize="!hasAuthority('USER') and !hasAuthority('ADMIN')">
+		<p>Kirjaudu sisään, jotta voit lisätä, muokata ja poistaa tuotteita.</p>
+	</div>
+	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
+		<a href="/categorylist" class="btn btn-primary">Lista tuoteryhmistä</a>	
+	</div>
+	
+	<script type="text/javascript">
+	    var elems = document.getElementsByClassName('confirmation');
+	    var confirmIt = function (e) {
+	        if (!confirm('Oletko varma?')) e.preventDefault();
+	    };
+	    for (var i = 0, l = elems.length; i < l; i++) {
+	        elems[i].addEventListener('click', confirmIt, false);
+	    }
+	</script>
+</body>
+</html>

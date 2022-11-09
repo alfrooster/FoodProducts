@@ -1,0 +1,18 @@
+label{
+    float: left;
+    clear: left;
+    width: 120px;
+    text-align: right;
+    margin-right: 5px;
+}
+input, select, option {
+	float: left;
+}
+
+.submit {
+	clear:both;
+}
+
+select {
+	width: 171px;
+}

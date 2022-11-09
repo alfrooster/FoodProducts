@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>Food Products</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+	<div class="menu">
+		<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
+			<form th:action="@{/logout}" method="post">
+				<input type="submit" value="Kirjaudu ulos"/>
+			</form>
+			<p>Asetukset (TULOSSA PIAN!)</p>
+		</div>
+		<div sec:authorize="!hasAuthority('USER') and !hasAuthority('ADMIN')">
+			<a href="/login" class="btn btn-primary">Kirjaudu sisään</a>
+		</div>
+	</div>
+	
+	<h1>Herkku-Herkko</h1>
+	<p>Lista tuoteryhmistä.</p>
+	
+    <table class="table table-striped">
+		<tr>
+			<th>Nimi</th>
+		</tr>
+			<tr th:each = "category : ${categories}">
+			<td th:text="${category.name}"></td>
+			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/editcategory/{id}(id=${category.categoryid})}">Muokkaa</a></td>
+			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/deletecategory/{id}(id=${category.categoryid})}" class="confirmation">Poista</a></td>
+		</tr>
+	</table>
+	
+	<br>
+	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
+		<a href="/addcategory" class="btn btn-primary">Lisää uusi tuoteryhmä</a>
+	</div>
+	<a href="/foodlist" class="btn btn-primary">Tuotelista</a>
+	
+	<script type="text/javascript">
+		// gives confirmation box if delete is clicked
+	    var elems = document.getElementsByClassName('confirmation');
+	    var confirmIt = function (e) {
+	        if (!confirm('Oletko varma?')) e.preventDefault();
+	    };
+	    for (var i = 0, l = elems.length; i < l; i++) {
+	        elems[i].addEventListener('click', confirmIt, false);
+	    }
+	</script>
+</body>
+</html>

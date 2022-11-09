@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Herkku-Herkko | Kirjaudu sisään</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Herkku-Herkko</h1>
+	<h3>Kirjaudu sisään</h3>
+	<div th:if="${param.error}">
+        Käyttäjänimi tai salasana väärin.
+    </div>
+    <div th:if="${param.logout}">
+        Olet kirjautunut ulos.
+    </div>
+	<div>
+		<form th:action="@{/login}" method="post">
+			<label>Käyttäjänimi: </label>
+			<input type="text" name="username" /><br>
+			
+			<label>Salasana: </label>
+			<input type="password" name="password" /><br>
+			
+			<input type="submit" value="Kirjaudu sisään"></input>
+		</form>
+	</div>
+	
+	<br><a href="/foodlist" class="btn btn-primary">Tuotelista</a>
+	<p>Rekisteröidy (TULOSSA PIAN!)</p>
+</body>
+</html>

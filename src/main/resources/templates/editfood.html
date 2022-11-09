@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Herkku-Herkko</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/food.css}"/>
+</head>
+<body>
+	<h1>Muokkaa</h1>
+	<p>Muokkaa tuotteen tietoja.</p>
+	<div>
+		<form th:object="${food}" th:action="@{../save}" action="#" method="post">
+			<input type="hidden" th:field="*{id}" class="form-control"/>
+		
+			<label for="name">Nimi: </label>
+			<input type="text" id="name" th:field="*{name}" /><br>
+			
+			<label for="catlist">Tuoteryhmä: </label>
+			<select id="catlist" th:field="*{category}" class="form-control">
+				<option th:each="category: ${categories}" th:value="${category.categoryid}" th:text="${category.name}"></option>
+			</select><br>
+			
+			<label for="brand">Merkki: </label>
+			<input type="text" id="brand" th:field="*{brand}" /><br>
+			
+			<label for="country">Alkuperämaa: </label>
+			<input type="text" id="country" th:field="*{country}" /><br>
+	
+			<label for="weight">Paino (g): </label>
+			<input type="text" id="weight" th:field="*{weight}" /><br>
+			
+			<label for="kcal">Kaloreita (kcal): </label>
+			<input type="text" id="kcal" th:field="*{kcal}" /><br><br>
+			
+			<input class="btn btn-success" type="submit" value="Tallenna"></input>
+		</form>
+	</div>
+	<a href="/foodlist" class="btn btn-primary">Takaisin</a>
+</body>
+</html>
