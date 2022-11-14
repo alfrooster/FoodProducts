@@ -8,9 +8,10 @@
 	<h1>Uusi tuoteryhmä</h1>
 	<p>Lisää uusi tuoteryhmä elintarvikkeille.</p>
 	<div>
-		<form th:object="${category}" th:action="@{savecategory}" action="#" method="post">
+		<form th:object="${category}" th:action="@{saveaddcategory}" action="#" method="post">
 			<label for="name">Nimi: </label>
 			<input type="text" id="name" th:field="*{name}" /><br><br>
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name ERROR</p>
 			
 			<input class="submit" type="submit" value="Tallenna"></input>
 		</form>

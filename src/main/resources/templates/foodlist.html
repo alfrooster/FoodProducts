@@ -11,7 +11,6 @@
 			<form th:action="@{/logout}" method="post">
 				<input type="submit" value="Kirjaudu ulos"/>
 			</form>
-			<p>Asetukset (TULOSSA PIAN!)</p>
 		</div>
 		<div sec:authorize="!hasAuthority('USER') and !hasAuthority('ADMIN')">
 			<a href="/login" class="btn btn-primary">Kirjaudu sisään</a>
@@ -51,6 +50,9 @@
 	</div>
 	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
 		<a href="/categorylist" class="btn btn-primary">Lista tuoteryhmistä</a>	
+	</div><br>
+	<div sec:authorize="hasAuthority('ADMIN')">
+		<a href="/userlist" class="btn btn-primary">Lista käyttäjistä</a>	
 	</div>
 	
 	<script type="text/javascript">

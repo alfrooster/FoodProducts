@@ -9,9 +9,10 @@
 	<h1>Uusi elintarvike</h1>
 	<p>Lisää uusi tuote listaan.</p>
 	<div>
-		<form th:object="${food}" th:action="@{save}" action="#" method="post">
+		<form th:object="${food}" th:action="@{saveaddfood}" action="#" method="post">
 			<label for="name">Nimi: </label>
 			<input type="text" id="name" th:field="*{name}" /><br>
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name ERROR</p>
 			
 			<label for="catlist">Tuoteryhmä: </label>
 			<select id="catlist" th:field="*{category}" class="form-control">
@@ -20,12 +21,14 @@
 			
 			<label for="brand">Merkki: </label>
 			<input type="text" id="brand" th:field="*{brand}" /><br>
+			<p th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}">Brand ERROR</p>
 			
 			<label for="country">Alkuperämaa: </label>
 			<input type="text" id="country" th:field="*{country}" /><br>
 	
 			<label for="weight">Paino (g): </label>
 			<input type="text" id="weight" th:field="*{weight}" /><br>
+			<p th:if="${#fields.hasErrors('weight')}" th:errors="*{weight}">Weight ERROR</p>
 			
 			<label for="kcal">Kaloreita (kcal): </label>
 			<input type="text" id="kcal" th:field="*{kcal}" /><br><br>

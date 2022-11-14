@@ -6,6 +6,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity
 public class Food {
@@ -13,10 +16,18 @@ public class Food {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
+    @NotBlank(message = "Nimi ei voi jäädä tyhjäksi.")
 	private String name;
+    
+    @NotBlank(message = "Merkki ei voi jäädä tyhjäksi.")
 	private String brand;
+	
 	private String country;
+	
+    @NotNull(message = "Paino ei voi jäädä tyhjäksi.")
+    @PositiveOrZero(message = "Painon täytyy olla positiivinen kokonaisluku.")
 	private Integer weight;
+	
 	private Integer kcal;
 	
 	@ManyToOne

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Herkku-Herkko</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1>Rekisteröidy</h1>
+	<p>Luo itsellesi käyttäjänimi ja salasana.</p>
+	<div>
+		<form th:object="${register}" th:action="@{saveuser}" action="#" method="post">
+			<div>
+				<label> Käyttäjänimi:<input type="text" th:field="*{username}" class="form-control"/></label>
+				<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</p>	
+			</div>
+			<div>
+				<label> Salasana:<input type="password" th:field="*{password}" class="form-control"/></label>
+				<p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</p>	
+			</div>
+			<div>
+				<label> Salasana uudelleen: <input type="password" th:field="*{passwordCheck}" class="form-control"/></label>
+				<p th:if="${#fields.hasErrors('passwordCheck')}" th:errors="*{passwordCheck}">Password Match Error</p>	
+			</div>
+			
+			<input class="submit" type="submit" value="Rekisteröidy"></input>
+		</form>
+	</div>
+	<a href="/login" class="btn btn-primary">Takaisin kirjautumiseen</a>
+</body>
+</html>

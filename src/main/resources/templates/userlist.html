@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <title>Food Products</title>
+    <title>Herkku-Herkko</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
@@ -12,33 +12,34 @@
 				<input type="submit" value="Kirjaudu ulos"/>
 			</form>
 		</div>
-		<div sec:authorize="!hasAuthority('USER') and !hasAuthority('ADMIN')">
-			<a href="/login" class="btn btn-primary">Kirjaudu sisään</a>
-		</div>
 	</div>
 	
 	<h1>Herkku-Herkko</h1>
-	<p>Lista tuoteryhmistä.</p>
+	<h2 th:inline="text">Hei, [[${#httpServletRequest.remoteUser}]]!</h2>
+	<p>Lista rekisteröityneistä käyttäjistä.</p>
 	
     <table class="table table-striped">
 		<tr>
-			<th>Nimi</th>
+			<th>Id</th>
+			<th>Käyttäjänimi</th>
+			<th>Rooli</th>
 		</tr>
-			<tr th:each = "category : ${categories}">
-			<td th:text="${category.name}"></td>
-			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/editcategory/{id}(id=${category.categoryid})}">Muokkaa</a></td>
-			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/deletecategory/{id}(id=${category.categoryid})}" class="confirmation">Poista</a></td>
+			<tr th:each = "user : ${users}">
+			<td th:text="${user.id}"></td>
+			<td th:text="${user.username}"></td>
+			<td th:text="${user.role}"></td>
+			<td sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')"><a th:href="@{/deleteuser/{id}(id=${user.id})}" class="confirmation">Poista</a></td>
 		</tr>
 	</table>
 	
-	<br>
-	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
-		<a href="/addcategory" class="btn btn-primary">Lisää uusi tuoteryhmä</a>
+	<div sec:authorize="hasAuthority('ADMIN')">
+		<a href="/adduser" class="btn btn-primary">Lisää uusi käyttäjä</a>
 	</div>
-	<a href="/foodlist" class="btn btn-primary">Tuotelista</a>
+	<div>
+		<a href="/foodlist" class="btn btn-primary">Takaisin etusivulle</a>	
+	</div>
 	
 	<script type="text/javascript">
-		// gives confirmation box if delete is clicked
 	    var elems = document.getElementsByClassName('confirmation');
 	    var confirmIt = function (e) {
 	        if (!confirm('Oletko varma?')) e.preventDefault();

@@ -8,11 +8,12 @@
 	<h1>Muokkaa tuoteryhmää</h1>
 	<p>Voit muokata tuoteryhmän tietoja.</p>
 	<div>
-		<form th:object="${category}" th:action="@{../savecategory}" action="#" method="post">
+		<form th:object="${category}" th:action="@{../saveeditcategory}" action="#" method="post">
 			<input type="hidden" th:field="*{categoryid}" class="form-control"/>
 		
 			<label for="name">Name: </label>
 			<input type="text" id="name" th:field="*{name}" /><br><br>
+			<p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name ERROR</p>
 			
 			<input class="btn btn-success" type="submit" value="Tallenna"></input>
 		</form>

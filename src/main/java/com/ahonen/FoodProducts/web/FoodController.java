@@ -3,16 +3,21 @@ package com.ahonen.FoodProducts.web;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ahonen.FoodProducts.domain.FoodRepository;
+import com.ahonen.FoodProducts.domain.User;
+import com.ahonen.FoodProducts.domain.UserRepository;
 import com.ahonen.FoodProducts.domain.Category;
 import com.ahonen.FoodProducts.domain.CategoryRepository;
 import com.ahonen.FoodProducts.domain.Food;
@@ -23,6 +28,8 @@ public class FoodController {
 	private FoodRepository repository;
 	@Autowired
 	private CategoryRepository crepository;
+	@Autowired
+	private UserRepository urepository;
 	
 	// finds all saved foods, returns foodlist page at / and /foodlist endpoints
 	// visible even when not signed in
@@ -55,9 +62,13 @@ public class FoodController {
 	}
 	
 	// save new food after submitting
-	@RequestMapping(value = "/save", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveaddfood", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-	public String save(Food food){
+	public String saveAddFood(@Valid Food food, BindingResult bindingResult, Model model){
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categories", crepository.findAll());
+			return "addfood";
+		}
 		repository.save(food);
 		return "redirect:foodlist";
 	}
@@ -79,6 +90,18 @@ public class FoodController {
 		return "editfood";
 	}
 	
+	// save edited food after submitting
+	@RequestMapping(value = "/saveeditfood", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+	public String saveEditFood(@Valid Food food, BindingResult bindingResult, Model model){
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("categories", crepository.findAll());
+			return "editfood";
+		}
+		repository.save(food);
+		return "redirect:foodlist";
+	}
+	
 	// page where you can create a new category
 	@RequestMapping(value = "/addcategory")
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
@@ -88,9 +111,12 @@ public class FoodController {
 	}
 	
 	// save the new category after submitting
-	@RequestMapping(value = "/savecategory", method = RequestMethod.POST)
+	@RequestMapping(value = "/saveaddcategory", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
-	public String saveCategory(Category category){
+	public String saveAddCategory(@Valid Category category, BindingResult bindingResult, Model model){
+		if (bindingResult.hasErrors()) {
+			return "addcategory";
+		}
 		crepository.save(category);
 		return "redirect:categorylist";
 	}
@@ -118,10 +144,37 @@ public class FoodController {
 		return "editcategory";
 	}
 	
+	// save the edited category after submitting
+	@RequestMapping(value = "/saveeditcategory", method = RequestMethod.POST)
+	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
+	public String saveEditCategory(@Valid Category category, BindingResult bindingResult, Model model){
+		if (bindingResult.hasErrors()) {
+			return "editcategory";
+		}
+		crepository.save(category);
+		return "redirect:categorylist";
+	}
+	
 	// returns login page at /login endpoint
-	@RequestMapping(value= {"/login"})
+	@RequestMapping(value= "/login")
 	public String login(Model model) {
 		return "login";
+	}
+	
+	// lists all users
+	@RequestMapping(value= "/userlist")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public String userList(Model model) {
+		model.addAttribute("users", urepository.findAll());
+		return "userlist";
+	}
+	
+	// delete an user by id
+	@RequestMapping(value = "/deleteuser/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public String deleteUser(@PathVariable("id") Long userId, Model model){
+		urepository.deleteById(userId);
+		return "redirect:../userlist";
 	}
 
 }
