@@ -17,7 +17,7 @@ public class Register {
     private String passwordCheck = "";
 
     @NotEmpty
-    private String role = "";
+    private String role = "USER";
 
 	public String getUsername() {
 		return username;

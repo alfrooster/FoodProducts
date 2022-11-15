@@ -52,12 +52,12 @@ public class UserController {
 		    		repository.save(newUser);
 		    	}
 		    	else {
-	    			bindingResult.rejectValue("username", "err.username", "Username already exists");    	
+	    			bindingResult.rejectValue("username", "err.username", "Käyttäjänimi on jo käytössä");    	
 	    			return "register";		    		
 		    	}
     		}
     		else {
-    			bindingResult.rejectValue("passwordCheck", "err.passCheck", "Passwords do not match");    	
+    			bindingResult.rejectValue("passwordCheck", "err.passCheck", "Salasanat eivät täsmää");    	
     			return "register";
     		}
     	}
@@ -100,12 +100,12 @@ public class UserController {
 		    		repository.save(newUser);
 		    	}
 		    	else {
-	    			bindingResult.rejectValue("username", "err.username", "Username already exists");    	
+	    			bindingResult.rejectValue("username", "err.username", "Käyttäjänimi on jo käytössä");    	
 	    			return "adduser";		    		
 		    	}
     		}
     		else {
-    			bindingResult.rejectValue("passwordCheck", "err.passCheck", "Passwords do not match");    	
+    			bindingResult.rejectValue("passwordCheck", "err.passCheck", "Salasanat eivät täsmää");    	
     			return "adduser";
     		}
     	}
