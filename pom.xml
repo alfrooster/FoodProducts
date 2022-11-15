@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.ahonen</groupId>
 	<artifactId>FoodProducts</artifactId>
-	<version>0.4</version>
+	<version>0.5</version>
 	<name>FoodProducts</name>
 	<description>Final project for Palvelinohjelmointi</description>
 	<properties>

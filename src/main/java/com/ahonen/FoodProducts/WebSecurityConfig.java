@@ -21,12 +21,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http
     		.authorizeRequests()
+    			//allow access to these endpoints without authentication
     		  .antMatchers("/", "/foodlist", "/register", "/saveuser").permitAll()
 	    	  .anyRequest().authenticated()
 	    	  .and()
 	    	.formLogin()
-	    	  .loginPage("/login")
-	    	  .defaultSuccessUrl("/foodlist", true)
+	    	  .loginPage("/login") //endpoint for login page
+	    	  .defaultSuccessUrl("/foodlist", true) //redirects to foodlist after login
 	    	  .permitAll()
 	    	  .and()
 	    	.logout()

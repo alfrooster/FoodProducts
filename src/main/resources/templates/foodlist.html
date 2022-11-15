@@ -21,7 +21,7 @@
 	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
 		<h2 th:inline="text">Tervetuloa, [[${#httpServletRequest.remoteUser}]]!</h2>
 	</div>
-	<div sec:authorize="!hasAuthority('USER') or !hasAuthority('ADMIN')">
+	<div sec:authorize="!hasAuthority('USER') AND !hasAuthority('ADMIN')">
 		<h2 th:inline="text">Tervetuloa, vierailija!</h2>
 	</div>
 	<p>Tällä sivulla näet listan elintarviketuotteistamme.</p>
@@ -61,6 +61,7 @@
 	</div>
 	
 	<script type="text/javascript">
+		// gives confirmation box if delete is clicked
 	    var elems = document.getElementsByClassName('confirmation');
 	    var confirmIt = function (e) {
 	        if (!confirm('Oletko varma?')) e.preventDefault();

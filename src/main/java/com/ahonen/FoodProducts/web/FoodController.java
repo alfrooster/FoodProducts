@@ -1,8 +1,5 @@
 package com.ahonen.FoodProducts.web;
 
-import java.util.List;
-import java.util.Optional;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +10,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ahonen.FoodProducts.domain.FoodRepository;
 import com.ahonen.FoodProducts.domain.UserRepository;
@@ -38,18 +34,6 @@ public class FoodController {
 		return "foodlist";
 	}
 	
-	// RESTful service to get all foods
-    @RequestMapping(value="/foodproducts", method = RequestMethod.GET)
-    public @ResponseBody List<Food> foodListRest() {	
-        return (List<Food>) repository.findAll();
-    }    
-
-	// RESTful service to get food product by id
-    @RequestMapping(value="/food/{id}", method = RequestMethod.GET)
-    public @ResponseBody Optional<Food> findFoodRest(@PathVariable("id") Long foodId) {	
-    	return repository.findById(foodId);
-    }
-	
 	// page where you can create a new food item
     // only usable if logged in
 	@RequestMapping(value = "/add")
@@ -64,11 +48,11 @@ public class FoodController {
 	@RequestMapping(value = "/saveaddfood", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 	public String saveAddFood(@Valid Food food, BindingResult bindingResult, Model model){
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) { //if there are errors, return the addfood page
 			model.addAttribute("categories", crepository.findAll());
 			return "addfood";
 		}
-		repository.save(food);
+		repository.save(food); //if there are no errors, save and return foodlist
 		return "redirect:foodlist";
 	}
 	
@@ -93,11 +77,11 @@ public class FoodController {
 	@RequestMapping(value = "/saveeditfood", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 	public String saveEditFood(@Valid Food food, BindingResult bindingResult, Model model){
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) { //if there are errors, return the editfood page
 			model.addAttribute("categories", crepository.findAll());
 			return "editfood";
 		}
-		repository.save(food);
+		repository.save(food); //if there are no errors, save and return foodlist
 		return "redirect:foodlist";
 	}
 	
@@ -113,10 +97,10 @@ public class FoodController {
 	@RequestMapping(value = "/saveaddcategory", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 	public String saveAddCategory(@Valid Category category, BindingResult bindingResult, Model model){
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) { //if there are errors, return the addcategory page
 			return "addcategory";
 		}
-		crepository.save(category);
+		crepository.save(category); //if there are no errors, save and return categorylist
 		return "redirect:categorylist";
 	}
 	
@@ -147,10 +131,10 @@ public class FoodController {
 	@RequestMapping(value = "/saveeditcategory", method = RequestMethod.POST)
 	@PreAuthorize("hasAuthority('ADMIN') or hasAuthority('USER')")
 	public String saveEditCategory(@Valid Category category, BindingResult bindingResult, Model model){
-		if (bindingResult.hasErrors()) {
+		if (bindingResult.hasErrors()) { //if there are errors, return the editcategory page
 			return "editcategory";
 		}
-		crepository.save(category);
+		crepository.save(category); //if there are no errors, save and return categorylist
 		return "redirect:categorylist";
 	}
 	
