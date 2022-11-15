@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ahonen.FoodProducts.domain.FoodRepository;
-import com.ahonen.FoodProducts.domain.User;
 import com.ahonen.FoodProducts.domain.UserRepository;
 import com.ahonen.FoodProducts.domain.Category;
 import com.ahonen.FoodProducts.domain.CategoryRepository;

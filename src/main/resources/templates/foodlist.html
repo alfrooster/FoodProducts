@@ -18,7 +18,12 @@
 	</div>
 	
 	<h1>Herkku-Herkko</h1>
-	<h2 th:inline="text">Tervetuloa, [[${#httpServletRequest.remoteUser}]]!</h2>
+	<div sec:authorize="hasAuthority('USER') or hasAuthority('ADMIN')">
+		<h2 th:inline="text">Tervetuloa, [[${#httpServletRequest.remoteUser}]]!</h2>
+	</div>
+	<div sec:authorize="!hasAuthority('USER') or !hasAuthority('ADMIN')">
+		<h2 th:inline="text">Tervetuloa, vierailija!</h2>
+	</div>
 	<p>Tällä sivulla näet listan elintarviketuotteistamme.</p>
 	
     <table class="table table-striped">
